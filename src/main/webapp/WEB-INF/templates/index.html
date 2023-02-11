@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/statics/bootstrap/css/bootstrap.css}">
+    <script th:src="@{/statics/bootstrap/js/jquery.min.js}"></script>
+    <script th:src="@{/statics/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">用户信息管理</a>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-1 ">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                新增
+            </button>
+
+        </div>
+        <div class="col-8"></div>
+        <div class="col-3">
+            <div class="row">
+                <div class="col-3 offset-9">
+                    <button type="button" class="btn btn-primary" onclick="delFunc()">删除</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th><input type="checkbox" name="delid"></th>
+            <th>编号</th>
+            <th>用户名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>电话</th>
+            <th>住址</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user,iterStat : ${list}">
+            <td><input type="checkbox" th:value="${user.id}" name="delid"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.sex}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.phone}"></td>
+            <td th:text="${user.addr}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">用户管理</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form th:action="@{/addUser}">
+                <div class="modal-body">
+                    <table>
+
+                        <tr>
+                            <td>姓名:</td>
+                            <td><input name="username" type="text" class="form-control" size="45px"></td>
+                        </tr>
+                        <tr>
+                            <td>密码:</td>
+                            <td><input name="password" type="text" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>性别:</td>
+                            <td>
+                                <select class="form-control" name="sex">
+                                    <option value="男" selected="selected">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>年龄:</td>
+                            <td><input name="age" type="text" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>电话:</td>
+                            <td><input name="phone" type="text" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td>住址:</td>
+                            <td><input name="addr" type="text" class="form-control"></td>
+                        </tr>
+
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">提交</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script th:inline="javascript">
+    let checkeds = [];
+    $("input[name='delid']").change(function () {
+        checkeds = []
+        $("input[name='delid']").each(function (index) {
+            if ($(this).get(0).checked == true) {
+                console.log('第' + index + 'input被选中了');
+                checkeds.push($(this).get(0).value)
+            }
+        });
+        console.log(checkeds)
+    })
+
+    const ctxPath = [[${#httpServletRequest.getContextPath()}]];
+    console.log(ctxPath);
+    let delFunc=function (){
+
+        $.ajax({
+            url: "http://localhost:8085/deleteUser",
+            dataType: "json",
+            type: "post",
+            async: "true",
+            data: {deleteId:checkeds.join(",")},
+            success: function (data) {
+                window.location.href='http://localhost:8085/index';
+            },
+            error: function () {
+                window.location.href='http://localhost:8085/index';
+            }
+        });
+
+    }
+
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/statics/css/login.css}">
+    <link rel="stylesheet" th:href="@{/statics/bootstrap/css/bootstrap.css}">
+    <script th:src="@{/statics/bootstrap/js/jquery.min.js}"></script>
+    <script th:src="@{/statics/bootstrap/js/bootstrap.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="logintop">
+
+    </div>
+    <div class="loginbody">
+        <div class="logindiv">
+            <form name="loginform" class="loginform" th:action="@{/login}">
+                <ul>
+                    <li>
+                        <input name="username" type="text" class="loginuser" value="" placeholder="         输入账号"
+                               maxlength="100" id="username" errormsg="用户名长度在6-16位之间">
+
+                    </li>
+                    <li>
+                        <input name="password" type="password" class="loginpwd" value="" placeholder="        输入密码"
+                               id="password" errormsg="密码长度在6-16位之间">
+
+                    </li>
+                    <li>
+                        <button  type="submit" class="loginbtn" id="btnsubmit">登录</button>
+                    </li>
+
+                </ul>
+            </form>
+        </div>
+    </div>
+    <div class="loginbottom">
+        版权所有 2015 Star-net
+    </div>
+</div>
+
+
+</body>
+</html>
+
+
